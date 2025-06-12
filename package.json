@@ -1,0 +1,13 @@
+{
+  "name": "llms-txt-generator",
+  "version": "0.0.1",
+  "description": "The llms.txt and llms-full.txt Generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "packageManager": "pnpm@10.10.0"
+}
