@@ -9,9 +9,8 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod';
 
 import { promises as fs } from 'node:fs';
-import { join, dirname } from 'node:path';
-
-import { generateMcpPrompt } from '../llm/prompts/generate';
+import { dirname } from 'node:path';
+import { loadPrompt } from '../llm/utils';
 
 // Create an MCP server
 const server = new McpServer({
@@ -26,9 +25,18 @@ server.tool(
     prompt: z.string(),
   },
   async ({ prompt }) => {
-    return {
-      content: [{ type: 'text', text: `${generateMcpPrompt}\n\nUser's requirement: \n${prompt}` }],
-    };
+    try {
+      const generateMcpPrompt = await loadPrompt('generate');
+      
+      return {
+        content: [{ type: 'text', text: `${generateMcpPrompt}\n\nUser's requirement: \n${prompt}` }],
+      };
+    } catch (error) {
+      console.error(`Error reading prompt file: ${error}`);
+      return {
+        content: [{ type: 'text', text: `Error reading prompt file: ${error}` }],
+      };
+    }
   }
 )
 
@@ -161,7 +169,10 @@ server.tool(
   }
 );
 
-// Start receiving messages on stdin and sending messages on stdout
-const transport = new StdioServerTransport();
-await server.connect(transport);
-console.log('Server started');
+async function main() {
+  // Start receiving messages on stdin and sending messages on stdout
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.log('Server started');
+}
+main();

@@ -4,16 +4,15 @@
   "description": "The llms.txt and llms-full.txt Generator",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "files": [
     "dist"
   ],
   "bin": {
-    "generate": "dist/index.js",
+    "generate": "dist/cli/index.js",
     "mcp": "dist/mcp/server.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && mkdir -p dist/llm/prompts && cp src/llm/prompts/*.md dist/llm/prompts/",
     "clean": "rm -rf dist",
     "lint": "eslint 'src/**/*.ts'",
     "format": "prettier --write 'src/**/*.ts'",

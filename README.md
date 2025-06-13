@@ -13,6 +13,8 @@ A Node.js tool for generating `llms.txt` and `llms-full.txt` files, providing st
 - Support for CommonJS module format
 - Ignores hidden files and directories (starting with ".") by default
 - Generates content in English by default
+- **Enhanced Build Process**: Automatically includes prompt templates in distribution
+- **Comprehensive Testing**: Separate unit tests with mocks and integration tests with real file system
 
 ## Installation
 
@@ -85,7 +87,7 @@ You can configure llms-generator as a Model Context Protocol (MCP) tool in Curso
   "mcpServers": {
     "llms-generator": {
       "command": "npx",
-      "args": ["-y", "llms-txt-generator"]
+      "args": ["-y", "llms-txt-generator/mcp"]
     }
   }
 }
@@ -129,10 +131,29 @@ pnpm install
 pnpm build
 ```
 
+The build process:
+- Compiles TypeScript to JavaScript
+- Generates type definitions
+- **Automatically copies prompt templates** (`src/llm/prompts/*.md`) to `dist/llm/prompts/`
+- Creates executable binaries for CLI and MCP server
+
 ### Test
 
 ```bash
 pnpm test
+```
+
+The test suite includes:
+- **Unit Tests**: Use mocked file system for isolated testing
+- **Integration Tests**: Use real file system to test actual functionality
+- Coverage reporting with Jest
+
+```bash
+# Run tests in watch mode
+pnpm test:watch
+
+# Generate coverage report
+pnpm test:coverage
 ```
 
 ### Lint
