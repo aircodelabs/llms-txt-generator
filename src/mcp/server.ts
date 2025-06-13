@@ -8,7 +8,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
 
-import { exec } from 'child_process';
+import { generateMcpPrompt } from '../llm/prompts/generate';
 
 // Create an MCP server
 const server = new McpServer({
@@ -16,26 +16,18 @@ const server = new McpServer({
   version: '1.0.0',
 });
 
-// listFiles
-server.tool('listFiles', 'List files in the specified directory', { path: z.string() }, async ({ path }) => {
-  return new Promise((resolve, _reject) => {
-    exec(`ls -la ${path}`, async (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Command execution error: ${error}`);
-        resolve({
-          content: [{ type: 'text', text: `Command execution error: ${error}` }],
-        });
-        return;
-      }
-      if (stderr) {
-        console.error(`Command stderr: ${stderr}`);
-      }
-      resolve({
-        content: [{ type: 'text', text: `File list for directory ${path}:\n\`\`\`\n${stdout}\`\`\`\n` }],
-      });
-    })
-  });
-});
+server.tool(
+  'generate',
+  `Use this tool whenever the task is to create llms.txt and llms-full.txt files for the current project.`,
+  {
+    prompt: z.string(),
+  },
+  async ({ prompt }) => {
+    return {
+      content: [{ type: 'text', text: `${generateMcpPrompt}\n\nUser's requirement: \n${prompt}` }],
+    };
+  }
+)
 
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport();

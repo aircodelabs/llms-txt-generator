@@ -1,0 +1,143 @@
+# LLMs TXT Generator
+
+> A Node.js tool for generating `llms.txt` and `llms-full.txt` files, providing standardized documentation formats for AI models to better understand project structures.
+
+## Project Overview
+
+LLMs TXT Generator is a specialized Node.js tool designed to create standardized documentation files that help Large Language Models (LLMs) better understand project structures and content. The tool generates two main files:
+
+1. `llms.txt`: A concise navigation view of the project documentation
+2. `llms-full.txt`: A comprehensive file containing complete documentation content for in-depth analysis
+
+The project is built with TypeScript and supports CommonJS module format, making it easily integrable into various Node.js applications.
+
+## Core Features
+
+- Generate standard format `llms.txt` files for quick project navigation
+- Generate detailed `llms-full.txt` files for comprehensive project understanding
+- Support for custom output directory and filenames
+- Complete TypeScript type definitions
+- MCP (Model Context Protocol) server implementation for AI integration
+- File operation utilities (list, read, write, create directories)
+
+## Installation
+
+```bash
+pnpm add llms-txt-generator
+```
+
+## Usage
+
+```typescript
+import { generateLLMsFile } from 'llms-txt-generator';
+
+// Basic usage
+async function main() {
+  const result = await generateLLMsFile({
+    outputDir: './output',
+    generateFull: true
+  });
+  
+  console.log(`Files generated successfully: ${result.success}`);
+  console.log(`Standard file: ${result.filePath}`);
+  console.log(`Full file: ${result.fullFilePath}`);
+}
+
+main().catch(console.error);
+```
+
+## Project Structure
+
+### Main Components
+
+#### Entry Point (src/index.ts)
+
+The main entry point exports core functionality and types. Currently, it provides a basic hello world function and CLI initialization.
+
+```typescript
+#!/usr/bin/env node
+
+/**
+ * Text Generator Entry File
+ * Provides basic text generation functionality
+ */
+
+/**
+ * Example function
+ * @returns {string} Greeting message
+ */
+export function helloWorld(): string {
+  return 'Hello World from LLMs TXT Generator!';
+}
+
+/**
+ * Main function that runs when the script is executed directly
+ */
+if (import.meta.url === import.meta.resolve('./index.js')) {
+  console.log(helloWorld());
+  console.log('LLMs TXT Generator CLI is ready!');
+}
+
+export * from './types';
+```
+
+#### MCP Server Implementation (src/mcp/server-for-llms.ts)
+
+Implements a Model Context Protocol server with tools for file operations:
+
+- `generate`: Creates llms.txt and llms-full.txt files based on user requirements
+- `listFiles`: Lists files in a specified directory
+- `readFile`: Reads content from a specified file
+- `makeDirectory`: Creates a directory
+- `writeFile`: Writes content to a specified file
+- `runCommand`: Executes commands in the terminal
+
+#### Prompt Templates (src/llm/prompts/generate.ts)
+
+Contains the prompt template used for generating documentation files. The prompt includes:
+
+- Task objectives for generating llms.txt and llms-full.txt
+- File structure specifications for both files
+- Operation steps for generating the files
+- Important notes and guidelines
+
+### Configuration Files
+
+- **package.json**: Defines project dependencies, scripts, and metadata
+- **tsconfig.json**: TypeScript configuration
+- **jest.config.js**: Testing configuration
+
+## Development
+
+### Requirements
+
+- Node.js v18+
+- pnpm
+
+### Development Commands
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build the project
+pnpm build
+
+# Run tests
+pnpm test
+
+# Lint code
+pnpm lint
+
+# Format code
+pnpm format
+```
+
+## Notes
+
+- Hidden files and directories (starting with ".") contain non-essential information and are ignored during document generation
+- All generated content is in English by default, unless the project's configured language is not English or the user specifically requests another language
+
+## License
+
+MIT
