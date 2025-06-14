@@ -1,7 +1,7 @@
 {
   "name": "llms-txt-generator",
   "version": "0.0.2",
-  "description": "The llms.txt and llms-full.txt Generator",
+  "description": "A powerful CLI tool and MCP server for generating standardized llms.txt and llms-full.txt documentation files to help AI models better understand project structures",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -23,11 +23,27 @@
   },
   "keywords": [
     "llms",
+    "llms-txt",
+    "ai",
+    "documentation",
     "generator",
-    "text",
-    "file"
+    "cli",
+    "mcp",
+    "model-context-protocol",
+    "typescript",
+    "project-structure",
+    "ai-assistant",
+    "code-documentation"
   ],
   "author": "",
+  "homepage": "https://github.com/grasplabs/llms-txt-generator#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grasplabs/llms-txt-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/grasplabs/llms-txt-generator/issues"
+  },
   "license": "MIT",
   "packageManager": "pnpm@10.10.0",
   "engines": {

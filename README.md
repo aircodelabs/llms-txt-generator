@@ -2,21 +2,22 @@
 
 A Node.js tool for generating `llms.txt` and `llms-full.txt` files, providing standardized documentation formats for AI models to better understand project structures.
 
-## Features
+## Why AI-Generated Documentation?
 
-- 📄 **Generate standard format `llms.txt` files** for quick project navigation
-- 📚 **Generate detailed `llms-full.txt` files** for comprehensive project understanding
-- 🎯 **Support for custom output directory and filenames**
-- 🤖 **MCP (Model Context Protocol) server implementation** for AI integration
-- 🛠️ **File operation utilities** (list, read, write, create directories)
-- 💪 **Developed with TypeScript** providing complete type definitions
-- 📦 **ES Module support** with modern JavaScript standards
-- 🔒 **Ignores hidden files and directories** (starting with ".") by default
-- 🌍 **Generates content in English** by default
-- ⚡ **Enhanced Build Process** automatically includes prompt templates in distribution
-- 🧪 **Comprehensive Testing** separate unit tests with mocks and integration tests with real file system
-- 🚀 **CLI and programmatic API** for flexible usage
-- 🔧 **Configurable generation options** with TypeScript interfaces
+**AI understands AI best.** Traditional documentation is written for humans, but AI models need structured, comprehensive information to truly understand your codebase. This tool leverages AI to generate documentation that:
+
+- 🧠 **Speaks AI's language** - Uses patterns and structures that AI models process most effectively
+- 🎯 **Focuses on what matters** - Highlights the information AI needs for accurate code understanding
+- 📊 **Maintains consistency** - Ensures uniform documentation format across all projects
+- ⚡ **Saves time** - Automatically generates comprehensive documentation without manual effort
+
+## Key Features
+
+- 📄 **Generate `llms.txt` files** for quick project navigation
+- 📚 **Generate `llms-full.txt` files** for comprehensive project understanding  
+- 🤖 **MCP server integration** for seamless AI assistant workflows
+- 🚀 **Simple CLI interface** with interactive setup
+- 🔧 **Flexible configuration** supporting custom output paths and formats
 
 ## Quick Start
 
