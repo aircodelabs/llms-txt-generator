@@ -1,0 +1,22 @@
+# LLMs TXT Generator Configuration
+# This file contains configuration for the LLM model and generation parameters
+
+# Model Configuration
+model: gpt-3.5-turbo
+apiKey: your-openai-api-key-here  # Optional: can use OPENAI_API_KEY env var instead
+# baseURL: https://api.openai.com/v1  # Optional: defaults to OpenAI API
+
+# Generation Parameters
+maxTokens: 16384
+toolsType: function_call
+
+
+
+# Output Configuration
+outputDir: ./
+
+# Azure OpenAI Configuration (optional)
+# Uncomment and configure if using Azure OpenAI
+# azureOpenAI:
+#   apiVersion: 2024-02-15-preview
+#   deployment: your-deployment-name

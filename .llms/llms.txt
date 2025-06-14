@@ -1,10 +1,18 @@
-# LLMs TXT Generator
+# llms-txt-generator
 
-> A Node.js tool for generating `llms.txt` and `llms-full.txt` files, providing standardized documentation formats for AI models to better understand project structures.
+> The llms.txt and llms-full.txt Generator
 
 ## Core Documentation
-- [README.md](docs/README.md): Overview of the project, features, installation, usage examples, and generated files structure.
-- [LLM_USAGE.md](docs/LLM_USAGE.md): Usage guide for the LLM class, including installation, configuration, usage examples, and parameter guidelines.
+- [README](./README.md): Project overview and setup instructions
+- [API Documentation](./docs/api.md): API reference and usage examples
+- [Configuration Guide](./docs/config.md): Configuration options and setup
 
-## Optional Content
-- [index.ts](src/index.ts): Entry file for the text generator with basic functionality.
+## Key Source Files
+- [Main Entry Point](./src/index.ts): Application entry point
+- [Core Module](./src/core/): Main business logic
+- [Types](./src/types/): TypeScript type definitions
+
+## Additional Resources
+- [Examples](./examples/): Usage examples and demos
+- [Tests](./tests/): Test files and coverage
+- [Package Info](./package.json): Dependencies and scripts

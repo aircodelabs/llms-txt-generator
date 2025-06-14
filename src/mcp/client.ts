@@ -1,7 +1,7 @@
 // src/client.js;
 import { Client } from"@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from"@modelcontextprotocol/sdk/client/stdio.js";
-import { type ServerConfig } from "./config/servers";
+import { type IServerConfig } from "../types";
 import servers from './config/servers';
 import OpenAI from 'openai';
 
@@ -41,7 +41,16 @@ export class MCPClient {
   }
 
   public async callTool(tool_name: string, tool_args: any) {
-    const result = await (await this.toolNameMap[tool_name]).callTool({
+    const tool = await this.toolNameMap[tool_name];
+    if(!tool) {
+      console.warn(`Tool ${tool_name} not found`);
+      return {
+        role: 'tool',
+        name: tool_name,
+        content: "Tool not found",
+      }
+    }
+    const result = await (tool).callTool({
       name: tool_name,
       arguments: tool_args
     });
@@ -54,7 +63,7 @@ export class MCPClient {
   }
 }
 
-async function createClient(name:string, server: ServerConfig) {
+async function createClient(name: string, server: IServerConfig): Promise<Client> {
   const client = new Client({
     name,
     version: "1.0.0",

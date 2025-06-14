@@ -1,15 +1,13 @@
 import path from 'node:path';
 
-export interface ServerConfig {
-  command: string;
-  args: string[];
-}
+// MCP servers configuration
+import { type IServerConfig, type IServersConfig } from '../../types';
 
-export interface ServersConfig {
-  [name: string]: ServerConfig;
-}
+// 向后兼容的类型别名
+export type ServerConfig = IServerConfig;
+export type ServersConfig = IServersConfig;
 
-const servers: ServersConfig = {};
+const servers: IServersConfig = {};
 
 function registerServer(name: string, config: ServerConfig) {
   servers[name] = config;

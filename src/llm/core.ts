@@ -1,27 +1,10 @@
 import { EventEmitter } from 'events';
 import { MCPClient } from '../mcp/client';
 import OpenAI, { AzureOpenAI } from 'openai';
+import { type ILLMConfig } from '../types';
 
-export interface LLMConfig {
-  model: string;
-  apiKey?: string;
-  baseURL?: string;
-  // Common LLM parameters
-  maxTokens?: number;
-  temperature?: number;
-  topP?: number;
-  topK?: number;
-  frequencyPenalty?: number;
-  presencePenalty?: number;
-  stop?: string | string[];
-  seed?: number;
-  // Azure OpenAI specific config
-  azureOpenAI?: {
-    apiVersion?: string;
-    deployment?: string;
-  };
-  toolsType?: 'function_call' | 'tool_call'; // use function call or tools
-}
+// 向后兼容的类型别名
+export type LLMConfig = ILLMConfig;
 
 export class LLM {
   private mcpClient = new MCPClient();
@@ -56,19 +39,37 @@ export class LLM {
   async chat(messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[]): Promise<string> {
     const tools = await this.mcpClient.listTools(this.toolsType);
 
-    const completion = await this.openai.chat.completions.create({
+    const requestParams: any = {
       model: this.config.model,
       messages,
       tools: tools.length > 0 ? tools : undefined,
       stream: false,
-      max_tokens: this.config.maxTokens,
-      temperature: this.config.temperature,
-      top_p: this.config.topP,
-      frequency_penalty: this.config.frequencyPenalty,
-      presence_penalty: this.config.presencePenalty,
-      stop: this.config.stop,
-      seed: this.config.seed,
-    });
+    };
+
+    // Only add optional parameters if they are defined in config
+    if (this.config.maxTokens !== undefined) {
+      requestParams.max_tokens = this.config.maxTokens;
+    }
+    if (this.config.temperature !== undefined) {
+      requestParams.temperature = this.config.temperature;
+    }
+    if (this.config.topP !== undefined) {
+      requestParams.top_p = this.config.topP;
+    }
+    if (this.config.frequencyPenalty !== undefined) {
+      requestParams.frequency_penalty = this.config.frequencyPenalty;
+    }
+    if (this.config.presencePenalty !== undefined) {
+      requestParams.presence_penalty = this.config.presencePenalty;
+    }
+    if (this.config.stop !== undefined) {
+      requestParams.stop = this.config.stop;
+    }
+    if (this.config.seed !== undefined) {
+      requestParams.seed = this.config.seed;
+    }
+
+    const completion = await this.openai.chat.completions.create(requestParams);
 
     const message = completion.choices[0]?.message;
     if (!message) {
@@ -111,19 +112,37 @@ export class LLM {
 
       // console.log(tools);
       
-      const stream = await this.openai.chat.completions.create({
+      const requestParams: any = {
         model: this.config.model,
         messages,
         tools: tools.length > 0 ? tools : undefined,
         stream: true,
-        max_tokens: this.config.maxTokens,
-        temperature: this.config.temperature,
-        top_p: this.config.topP,
-        frequency_penalty: this.config.frequencyPenalty,
-        presence_penalty: this.config.presencePenalty,
-        stop: this.config.stop,
-        seed: this.config.seed,
-      });
+      };
+
+      // Only add optional parameters if they are defined in config
+      if (this.config.maxTokens !== undefined) {
+        requestParams.max_tokens = this.config.maxTokens;
+      }
+      if (this.config.temperature !== undefined) {
+        requestParams.temperature = this.config.temperature;
+      }
+      if (this.config.topP !== undefined) {
+        requestParams.top_p = this.config.topP;
+      }
+      if (this.config.frequencyPenalty !== undefined) {
+        requestParams.frequency_penalty = this.config.frequencyPenalty;
+      }
+      if (this.config.presencePenalty !== undefined) {
+        requestParams.presence_penalty = this.config.presencePenalty;
+      }
+      if (this.config.stop !== undefined) {
+        requestParams.stop = this.config.stop;
+      }
+      if (this.config.seed !== undefined) {
+        requestParams.seed = this.config.seed;
+      }
+
+      const stream: any = await this.openai.chat.completions.create(requestParams);
 
       // console.log(JSON.stringify(messages, null, 2));
 
@@ -133,8 +152,8 @@ export class LLM {
         let hasToolCall = false;
   
         for await (const chunk of stream) {
-          // console.log(chunk);
           const delta = chunk.choices[0]?.delta;
+          // console.log(JSON.stringify(delta), chunk.choices[1]);
           
           if (delta?.content) {
             currentMessage += delta.content;
@@ -156,9 +175,11 @@ export class LLM {
                 }
                 
                 if (toolCall.function?.name) {
+                  // join function name
                   toolCalls[toolCall.index].function.name += toolCall.function.name;
                 }
                 if (toolCall.function?.arguments) {
+                  // join arguments
                   toolCalls[toolCall.index].function.arguments += toolCall.function.arguments;
                 }
               }
@@ -166,16 +187,14 @@ export class LLM {
           }
         }
         
-        console.log(toolCalls.length);
+        // console.log(toolCalls.length);
 
         // Handle tool calls if any
         if (hasToolCall && toolCalls.length > 0) {
-          // emitter.emit('tool_call', toolCalls.map(tc => tc.function.name));
-          
           const systemRules: any = [];
           const toolResults = await Promise.all(
             toolCalls.map(async (toolCall) => {
-              emitter.emit('data', `⚒️ (do task) -> ${toolCall.function.name} | ${toolCall.function.arguments}\n\n`);
+              emitter.emit('data', `⚒️ (do task) -> ${toolCall.function.name} | ${toolCall.function.arguments.replace(/\n/g, ' ')}\n\n`);
               const result = await this.mcpClient.callTool(
                 toolCall.function.name,
                 JSON.parse(toolCall.function.arguments)

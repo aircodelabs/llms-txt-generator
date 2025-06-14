@@ -18,85 +18,37 @@ A Node.js tool for generating `llms.txt` and `llms-full.txt` files, providing st
 - 🚀 **CLI and programmatic API** for flexible usage
 - 🔧 **Configurable generation options** with TypeScript interfaces
 
-## Installation
-
-```bash
-# Using pnpm (recommended)
-pnpm add llms-txt-generator
-
-# Using npm
-npm install llms-txt-generator
-
-# Using yarn
-yarn add llms-txt-generator
-```
-
 ## Quick Start
-
-### Programmatic Usage
-
-```typescript
-import { generateLLMsFile } from 'llms-txt-generator';
-
-// Basic usage
-async function main() {
-  const result = await generateLLMsFile({
-    outputDir: './output',
-    generateFull: true
-  });
-  
-  console.log(`Files generated successfully: ${result.success}`);
-  console.log(`Standard file: ${result.filePath}`);
-  console.log(`Full file: ${result.fullFilePath}`);
-}
-
-main().catch(console.error);
-```
 
 ### CLI Usage
 
 ```bash
-# Generate both llms.txt and llms-full.txt
-npx llms-txt-generator generate
+# Initialize configuration file (creates llms-txt-generator.yaml)
+npx llms-txt-generator init
+
+# Build documentation files (requires configuration)
+npx llms-txt-generator build
+
+# Show help information
+npx llms-txt-generator help
+
+# Auto mode: checks for config file and runs accordingly
+# - If llms-txt-generator.yaml exists: runs build
+# - If no config file: runs init then build
+npx llms-txt-generator
 
 # Or if installed globally
-generate
-
-# Generate with custom output directory
-generate --output ./docs
-
-# Generate only standard file
-generate --no-full
+llms-txt-generator init
+llms-txt-generator build
+llms-txt-generator        # auto mode
 ```
 
-## API Reference
+#### Command Details
 
-### `generateLLMsFile(options)`
-
-Generates llms.txt and optionally llms-full.txt files.
-
-#### Options
-
-```typescript
-interface GenerateOptions {
-  outputDir?: string;        // Output directory (default: current directory)
-  generateFull?: boolean;    // Generate llms-full.txt (default: true)
-  fileName?: string;         // Custom filename for llms.txt (default: 'llms.txt')
-  fullFileName?: string;     // Custom filename for llms-full.txt (default: 'llms-full.txt')
-  projectRoot?: string;      // Project root directory (default: current directory)
-}
-```
-
-#### Returns
-
-```typescript
-interface GenerateResult {
-  success: boolean;          // Whether generation was successful
-  filePath?: string;         // Path to generated llms.txt
-  fullFilePath?: string;     // Path to generated llms-full.txt
-  error?: string;            // Error message if generation failed
-}
-```
+- **`init`**: Interactive setup wizard to create `llms-txt-generator.yaml` configuration
+- **`build`**: Generate documentation files based on existing configuration
+- **`help`**: Display usage information and available commands
+- **No arguments**: Smart mode that initializes if needed, then builds documentation
 
 ## Generated Files
 
@@ -145,7 +97,7 @@ Configure llms-txt-generator as an MCP tool in Cursor:
   "mcpServers": {
     "llms-generator": {
       "command": "npx",
-      "args": ["-y", "llms-txt-generator/mcp"]
+      "args": ["-y", "llms-txt-generator-mcp"]
     }
   }
 }
@@ -168,7 +120,7 @@ For Claude Desktop, add to your `claude_desktop_config.json`:
   "mcpServers": {
     "llms-generator": {
       "command": "npx",
-      "args": ["-y", "llms-txt-generator/mcp"]
+      "args": ["-y", "llms-txt-generator-mcp"]
     }
   }
 }
@@ -176,13 +128,9 @@ For Claude Desktop, add to your `claude_desktop_config.json`:
 
 ### Available MCP Tools
 
-The MCP server provides these tools:
+The MCP server provides this tool:
 
-- **`generate_llms_files`**: Generate both llms.txt and llms-full.txt
-- **`list_files`**: List files in a directory
-- **`read_file`**: Read file contents
-- **`write_file`**: Write content to a file
-- **`create_directory`**: Create directories
+- **`generate-llms`**: Generate llms.txt and llms-full.txt files for the current project based on user requirements
 
 ### Example Prompts
 
@@ -198,36 +146,6 @@ Generate documentation files with these requirements:
 
 # Custom configuration
 Create llms files with custom names: project-nav.txt and project-full.txt
-```
-
-## Project Structure
-
-```
-llms-txt-generator/
-├── src/
-│   ├── index.ts              # Main API exports
-│   ├── cli/
-│   │   └── index.ts          # Command-line interface
-│   ├── llm/
-│   │   ├── agent.ts          # LLM agent implementation
-│   │   ├── core.ts           # Core generation logic
-│   │   ├── utils.ts          # Utility functions
-│   │   └── prompts/          # Template files
-│   │       └── generate.md   # Generation prompt template
-│   ├── mcp/
-│   │   ├── server.ts         # MCP server implementation
-│   │   ├── client.ts         # MCP client utilities
-│   │   └── config/           # MCP configuration
-│   ├── types/
-│   │   └── index.ts          # TypeScript type definitions
-│   └── utils/                # General utilities
-├── tests/
-│   ├── index.test.ts         # Main API tests
-│   └── llm-utils.test.ts     # LLM utility tests
-├── .trae/
-│   ├── project_rules.md      # Project development rules
-│   └── memory_bank/          # Project context and status
-└── dist/                     # Built output (generated)
 ```
 
 ## Development
@@ -255,118 +173,6 @@ pnpm build
 3. **Run Tests**:
 ```bash
 pnpm test
-```
-
-### Available Scripts
-
-```bash
-# Build the project
-pnpm build
-
-# Clean build artifacts
-pnpm clean
-
-# Run tests
-pnpm test
-pnpm test:watch     # Watch mode
-pnpm test:coverage  # With coverage report
-
-# Code quality
-pnpm lint           # ESLint
-pnpm format         # Prettier
-
-# Development
-pnpm prepare        # Prepare for publishing
-```
-
-### Build Process
-
-The build process includes:
-- ✅ **TypeScript Compilation**: `src/` → `dist/`
-- ✅ **Type Definitions**: Generate `.d.ts` files
-- ✅ **Prompt Templates**: Copy `src/llm/prompts/*.md` → `dist/llm/prompts/`
-- ✅ **Executable Binaries**: CLI and MCP server
-- ✅ **ES Module Output**: Modern JavaScript standards
-
-### Testing Strategy
-
-- **Unit Tests**: Mock file system for isolated logic testing
-- **Integration Tests**: Real file system for end-to-end functionality
-- **Coverage**: Comprehensive test coverage with Jest
-- **CI/CD Ready**: All tests must pass before deployment
-
-### Code Quality
-
-- **ESLint**: Strict TypeScript linting rules
-- **Prettier**: Consistent code formatting
-- **Type Safety**: Strict TypeScript configuration
-- **Documentation**: JSDoc comments for all public APIs
-
-## Advanced Usage Examples
-
-### Custom Configuration
-
-```typescript
-import { generateLLMsFile } from 'llms-txt-generator';
-
-// Advanced configuration
-const result = await generateLLMsFile({
-  outputDir: './documentation',
-  generateFull: true,
-  fileName: 'project-overview.txt',
-  fullFileName: 'project-complete.txt',
-  projectRoot: './src'
-});
-
-if (result.success) {
-  console.log('✅ Documentation generated successfully!');
-  console.log(`📄 Overview: ${result.filePath}`);
-  console.log(`📚 Complete: ${result.fullFilePath}`);
-} else {
-  console.error('❌ Generation failed:', result.error);
-}
-```
-
-### Integration with Build Process
-
-```json
-// package.json
-{
-  "scripts": {
-    "docs": "npx llms-txt-generator generate --output ./docs",
-    "build": "npm run compile && npm run docs",
-    "prebuild": "npm run clean"
-  }
-}
-```
-
-### GitHub Actions Integration
-
-```yaml
-# .github/workflows/docs.yml
-name: Generate Documentation
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  docs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - run: npx llms-txt-generator generate
-      - name: Commit documentation
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add llms*.txt
-          git diff --staged --quiet || git commit -m "docs: update llms documentation"
 ```
 
 ## Contributing
@@ -399,20 +205,28 @@ We welcome contributions! Please follow these guidelines:
 
 ### Common Issues
 
-**Q: "Module not found" error when using MCP**
+**Q: "Module not found" error when using CLI**
 ```bash
-# Solution: Install globally or use full path
+# Solution: Install globally or use npx
 npm install -g llms-txt-generator
-# Or use npx with -y flag
-npx -y llms-txt-generator/mcp
+# Or use npx
+npx llms-txt-generator init
 ```
 
 **Q: "Permission denied" when running CLI**
 ```bash
 # Solution: Make sure the binary is executable
-chmod +x node_modules/.bin/generate
+chmod +x node_modules/.bin/llms-txt-generator
 # Or reinstall the package
 pnpm install llms-txt-generator
+```
+
+**Q: "Configuration file not found"**
+```bash
+# Solution: Run init command to create configuration
+npx llms-txt-generator init
+# Or copy from example
+cp llms-txt-generator.example.yaml llms-txt-generator.yaml
 ```
 
 **Q: "TypeScript compilation errors"**
@@ -420,6 +234,13 @@ pnpm install llms-txt-generator
 # Solution: Check Node.js version and dependencies
 node --version  # Should be >= 18
 pnpm install    # Reinstall dependencies
+```
+
+**Q: "MCP server connection issues"**
+```bash
+# Solution: Check MCP server configuration
+# Make sure the server path is correct in your MCP client
+# Use full path: /path/to/node_modules/.bin/llms-txt-generator-mcp
 ```
 
 ## Changelog

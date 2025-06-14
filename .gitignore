@@ -31,3 +31,6 @@ pnpm-debug.log*
 # Operating system files
 .DS_Store
 Thumbs.db
+
+llms-txt-generator.yaml
+llms-txt-generator.bak.yaml

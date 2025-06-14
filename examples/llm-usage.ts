@@ -17,19 +17,23 @@ async function useOpenAI() {
   const config: LLMConfig = {
     model: process.env.OPENAI_API_MODEL || 'gpt-3.5-turbo',
     apiKey: process.env.OPENAI_API_KEY, // or pass directly
-    baseURL: process.env.OPENAI_API_BASE,
+    baseURL: process.env.OPENAI_API_BASE || 'https://api.openai.com/v1',
     maxTokens: 1024 * 16,
     temperature: 0.7,
     topP: 0.9,
     frequencyPenalty: 0.1,
     presencePenalty: 0.1,
-    stop: ['\n\n', 'END'],
+    // stop: ['\n\n', 'END'],
     seed: 42,
-    azureOpenAI: {
-      deployment: 'gpt-4o-mini', // process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME,
-    },
     toolsType: 'function_call',
   };
+
+  if (process.env.AZURE_OPENAI_API_DEVELOPMENT) {
+    config.azureOpenAI = {
+      apiVersion: process.env.AZURE_OPENAI_API_VERSION || '2024-02-15-preview',
+      deployment: process.env.AZURE_OPENAI_API_DEVELOPMENT,
+    };
+  }
 
   console.log('config:', config);
   const llm = new LLM(config);
