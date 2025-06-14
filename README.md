@@ -1,6 +1,6 @@
 # llms-txt-generator
 
-A Node.js tool for generating `llms.txt` and `llms-full.txt` files, providing standardized documentation formats for AI models to better understand project structures.
+The ultimate AI-powered generator for `llms.txt` and `llms-full.txt` files. Leveraging advanced AI capabilities to create the most comprehensive and AI-optimized documentation that helps language models understand your project with unprecedented clarity and depth.
 
 ## Why AI-Generated Documentation?
 
