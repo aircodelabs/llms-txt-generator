@@ -4,6 +4,7 @@
   "description": "The llms.txt and llms-full.txt Generator",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "files": [
     "dist"
   ],
@@ -48,8 +49,16 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@langchain/core": "^0.3.58",
+    "@langchain/openai": "^0.5.13",
     "@modelcontextprotocol/sdk": "^1.12.1",
     "dotenv": "^16.5.0",
+    "mcp-use": "^0.0.6",
+    "openai": "^5.3.0",
     "zod": "^3.25.63"
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   }
 }

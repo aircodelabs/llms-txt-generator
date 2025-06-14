@@ -1,4 +1,4 @@
-# LLMs.txt Generator Prompt
+IMPORTANT!! Follow the instructions below to continue the task：
 
 ## 🎯 Task Objective
 
@@ -51,11 +51,44 @@ Based on user requirements and project content, generate the following two files
 - Hidden files and directories (starting with ".") contain non-essential information and should be ignored during document generation.
 - All generated content should be in English by default, unless the project's configured language is not English or the user specifically requests another language.
 - If you already have built-in tools for file operations, prioritize using those built-in tools otherwise you can use tools the following tools instead.
-  - `listFiles`: List all files and directories in the project.
-  - `readFile`: Read the content of a specified file.
-  - `makeDirectory`: Create a directory.
-  - `writeFile`: Write content to a specified file.
-  - `runCommand`: Execute commands in the command line terminal.
+  - `list_directory`
+    - List directory contents with [FILE] or [DIR] prefixes
+    - Input: path (string)
+  - `create_directory`
+    - Create new directory or ensure it exists
+    - Input: path (string)
+    - Creates parent directories if needed
+    - Succeeds silently if directory exists
+  - `search_files`
+    - Recursively search for files/directories
+    - Inputs:
+      - path (string): Starting directory
+      - pattern (string): Search pattern
+      - excludePatterns (string[]): Exclude any patterns. Glob formats are supported.
+    - Case-insensitive matching
+    - Returns full paths to matches
+  - `write_file`
+    - Create new file or overwrite existing (exercise caution with this)
+    - Inputs:
+      - path (string): Full path to file
+      - content (string): File content
+  - `edit_file`: 
+    - Make selective edits using advanced pattern matching and formatting
+    - Features:
+      - Line-based and multi-line content matching
+      - Whitespace normalization with indentation preservation
+      - Multiple simultaneous edits with correct positioning
+      - Indentation style detection and preservation
+      - Git-style diff output with context
+      - Preview changes with dry run mode
+    - Inputs:
+      - path (string): File to edit
+      - edits (array): List of edit operations
+        - oldText (string): Text to search for (can be substring)
+        - newText (string): Text to replace with
+      - dryRun (boolean): Preview changes without applying (default: false)
+    - Returns detailed diff and match information for dry runs, otherwise applies changes
+    - Best Practice: Always use dryRun first to preview changes before applying them
 
 ---
 

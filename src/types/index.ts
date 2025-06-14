@@ -1,4 +1,6 @@
 /**
  * Type definitions file
  */
-export default 42;
+
+export { LLM } from '../llm/core';
+export type { LLMConfig } from '../llm/core';

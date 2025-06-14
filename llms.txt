@@ -3,12 +3,8 @@
 > A Node.js tool for generating `llms.txt` and `llms-full.txt` files, providing standardized documentation formats for AI models to better understand project structures.
 
 ## Core Documentation
-- [README.md](README.md): Project overview, installation instructions, usage examples, and development setup
-- [index.ts](src/index.ts): Main entry point for the library, exports core functionality
-- [server-for-llms.ts](src/mcp/server-for-llms.ts): MCP server implementation with tools for file operations
-- [generate.ts](src/llm/prompts/generate.ts): Contains prompt templates for generating documentation files
+- [README](docs/README.md): Project introduction, features, installation, and usage instructions.
+- [LLM Usage Guide](docs/LLM_USAGE.md): Guidelines on how to use the LLM class with OpenAI SDK.
 
 ## Optional Content
-- [package.json](package.json): Project dependencies and configuration
-- [tsconfig.json](tsconfig.json): TypeScript configuration
-- [jest.config.js](jest.config.js): Testing configuration
+- [Generate Prompt](src/llm/prompts/generate.md): Instructions for creating llms.txt and llms-full.txt files.

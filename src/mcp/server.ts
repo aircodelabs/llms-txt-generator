@@ -16,7 +16,7 @@ const server = new McpServer({
 });
 
 server.tool(
-  'generate',
+  'generate-llms',
   `Use this tool whenever the task is to create llms.txt and llms-full.txt files for the current project.`,
   {
     prompt: z.string(),

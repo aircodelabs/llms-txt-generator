@@ -45,31 +45,43 @@ main().catch(console.error);
 ## Generated Files
 
 ### llms.txt Structure
+
 The generated `llms.txt` file provides a concise navigation view of your project:
+
 ```markdown
 # Project Name
+
 > Project introduction, briefly describing the purpose and functionality of the project.
+
 ## Core Documentation
 - [Document Title](URL): Brief description
 - [Document Title](URL): Brief description
+
 ## Optional Content
 - [Resource Name](URL): Brief description
 ```
 
 ### llms-full.txt Content
+
 The `llms-full.txt` file contains comprehensive documentation including:
+
 - Detailed project overview
 - Core features explanation
 - Installation and usage instructions
 - Complete project structure description
 - Code examples and explanations
 - Development requirements and commands
+
 This file is designed to give AI models a thorough understanding of your project.
 
 ## MCP Integration
+
 ### Using with Cursor
+
 You can configure llms-generator as a Model Context Protocol (MCP) tool in Cursor to generate documentation files directly from your AI assistant:
+
 1. Configure the MCP tool in Cursor by adding the following JSON configuration to your Cursor settings:
+
 ```json
 {
   "mcpServers": {
@@ -80,56 +92,60 @@ You can configure llms-generator as a Model Context Protocol (MCP) tool in Curso
   }
 }
 ```
+
 2. Restart Cursor to load the new MCP configuration.
+
 3. Use the tool in Cursor by asking your AI assistant to generate documentation files:
+
 ```
-Use the llms-generator MCP tool to create llms.txt and llms-full.txt for this project.
+Use the llms-generator MCP tool to create llms.txt and llms-full.txt for this project
 ```
-### Example Prompt When using the MCP tool, you can provide specific instructions:
+
+### Example Prompt
+
+When using the MCP tool, you can provide specific instructions:
+
 ```
 Generate llms.txt and llms-full.txt files with the following requirements:
-1. Ignore hidden files and directories.
-2. Generate content in English.
-3. Focus on the core functionality of the project.
+1. Ignore hidden files and directories
+2. Generate content in English
+3. Focus on the core functionality of the project
 ```
-## Development Requirements 
-### Requirements 
+
+## Development
+
+### Requirements
+
 - Node.js v18+
-- pnpm 
-### Installing Dependencies 
-```bash 
-pnpm install 
+- pnpm
+
+### Installing Dependencies
+
+```bash
+pnpm install
 ```
-### Build 
-```bash 
-pnpm build 
-```
-The build process:
+
+### Build Process Overview:
 - Compiles TypeScript to JavaScript.
 - Generates type definitions.
 - **Automatically copies prompt templates** (`src/llm/prompts/*.md`) to `dist/llm/prompts/`.
 - Creates executable binaries for CLI and MCP server.
-### Test 
-```bash 
-pnpm test 
-```
-The test suite includes:
+### Test Suite includes:
 - **Unit Tests**: Use mocked file system for isolated testing.
 - **Integration Tests**: Use real file system to test actual functionality.
 - Coverage reporting with Jest.
-```bash 
-# Run tests in watch mode 
-pnpm test:watch 
-# Generate coverage report 
-pnpm test:coverage 
-```
-### Lint 
-```bash 
-pnpm lint 
-```
-### Format Code 
-```bash 
-pnpm format 
-```
-## License 
-MIT
+### License: MIT.
+## LLM Class Usage Guide  
+The LLM class has been updated to use the OpenAI SDK, providing better support for both OpenAI and Azure OpenAI services. 
+### Configuration Options  
+The configuration options available in LLMConfig interface include model name, API key, base URL, max tokens, temperature, topP, frequencyPenalty, presencePenalty, stop sequences, seed and Azure specific configurations. 
+### Tool Support  
+The LLM class automatically integrates with MCP tools. Tools are automatically discovered from the MCP client and tool calls are handled transparently in both streaming and non-streaming modes.
+### Error Handling  
+Includes try-catch blocks for managing errors effectively. 
+## Migration from Previous Version  
+Details on how to migrate from older implementations are provided. 
+## Parameter Guidelines  
+Guidelines on using parameters such as temperature, top-p, penalties and max tokens are discussed. 
+## Benefits of the New Implementation  
+Highlights benefits like better type safety, improved error handling, streaming support and flexibility.

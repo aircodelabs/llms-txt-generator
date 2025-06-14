@@ -1,17 +1,25 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "declaration": true,
-    "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true,
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "sourceMap": true,
-    "lib": ["es2020", "dom"]
+    "outDir": "./dist",
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "baseUrl": ".",
+    "paths": {
+      "mcp-use": ["./node_modules/mcp-use/dist/index"]
+    },
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["src/**/*", "example/**/*"],
   "exclude": ["node_modules", "**/*.test.ts", "dist"]
