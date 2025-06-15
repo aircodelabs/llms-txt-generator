@@ -11,7 +11,7 @@ import { loadPrompt } from '../llm/utils';
 
 // Create an MCP server
 const server = new McpServer({
-  name: 'Demo',
+  name: 'Generate LLMs',
   version: '1.0.0',
 });
 

@@ -15,7 +15,6 @@ const getCurrentDir = () => dirname(require.resolve('./utils.js'));
  * @returns Promise<string> - The content of the prompt file
  */
 export async function loadPrompt(promptName: string): Promise<string> {
-  const currentDir = getCurrentDir();
   try {
     // Get the current file's directory
     const currentDir = getCurrentDir();
