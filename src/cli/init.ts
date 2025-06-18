@@ -57,8 +57,8 @@ class ConfigInitializer {
     this.config.baseURL = baseURL.trim() || 'https://api.openai.com/v1';
     
     // Model
-    const model = await this.question('Enter model name (press Enter for default: gpt-4): ');
-    this.config.model = model.trim() || 'gpt-4';
+    const model = await this.question('Enter model name (press Enter for default: gpt-4o): ');
+    this.config.model = model.trim() || 'gpt-4o';
   }
 
   private async configureAzureOpenAI(): Promise<void> {

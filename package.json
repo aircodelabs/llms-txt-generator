@@ -1,6 +1,6 @@
 {
   "name": "llms-txt-generator",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A powerful CLI tool and MCP server for generating standardized llms.txt and llms-full.txt documentation files to help AI models better understand project structures",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
