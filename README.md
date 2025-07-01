@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/grasplabs-llms-txt-generator-badge.png)](https://mseep.ai/app/grasplabs-llms-txt-generator)
+
 # llms-txt-generator
 
 The ultimate AI-powered generator for `llms.txt` and `llms-full.txt` files. Leveraging advanced AI capabilities to create the most comprehensive and AI-optimized documentation that helps language models understand your project with unprecedented clarity and depth.
